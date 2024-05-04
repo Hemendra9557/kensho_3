@@ -1,21 +1,21 @@
-# import random
-# from string import ascii_letters
-
+# Import necessary libraries
 import pyttsx3  # Import pyttsx3 library for text-to-speech
 from deepl import Translator
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, redirect, render_template, request, session, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room, send
 
 from utils import generate_room_code
 
+# Initialize Flask app and SocketIO
 app = Flask(__name__)
-deepl_api_key = (
-    "e6f1d062-5229-463b-b11f-6945aa2b969f:fx"  # Replace with your actual DeepL API key
-)
-translator = Translator(deepl_api_key)
 app.config["SECRET_KEY"] = "SDKFJSDFOWEIOF"
 socketio = SocketIO(app)
 
+# Initialize DeepL translator
+deepl_api_key = "e6f1d062-5229-463b-b11f-6945aa2b969f:fx"  # Replace with your actual DeepL API key
+translator = Translator(deepl_api_key)
+
+# Dictionary to store rooms and their information
 rooms = {}
 
 
@@ -43,9 +43,7 @@ def speak_message(message):
 def handle_message(text):
     room = session.get("room")
     name = session.get("name")
-    target_language = session.get(
-        "target_language", "ja"
-    )  # Default to Japanese if not set
+    target_language = session.get("target_language", "ja")  # Default to Japanese if not set
 
     if room not in rooms:
         return
@@ -81,24 +79,17 @@ def home():
         if not name:
             return render_template("home.html", error="Name is required", code=code)
 
-        if create != False:
+        if create:
             room_code = generate_room_code(6, list(rooms.keys()))
             new_room = {"members": 0, "messages": []}
             rooms[room_code] = new_room
 
-        if join != False:
-            # no code
+        if join:
             if not code:
-                return render_template(
-                    "home.html",
-                    error="Please enter a room code to enter a chat room",
-                    name=name,
-                )
-            # invalid code
+                return render_template("home.html", error="Please enter a room code to enter a chat room", name=name)
+
             if code not in rooms:
-                return render_template(
-                    "home.html", error="Room code invalid", name=name
-                )
+                return render_template("home.html", error="Room code invalid", name=name)
 
             room_code = code
 
