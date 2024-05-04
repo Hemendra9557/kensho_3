@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block content %}
+<div id="home-container">
+  <h1 id="home-header">Kensho</h1>
+  {% if error %}
+  <p id="error">{{error}}</p>
+  {% endif %}
+  <div id="landing-content">
+    <p>
+      Welcome ! Join or create a chat room to start chatting in your lang...
+    </p>
+    <button id="show-form-btn">Join Now</button>
+  </div>
+  <form method="post" id="chat-widget-home" class="hidden">
+    <div id="name-input">
+      <label for="name">Enter your name</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Enter name"
+        value="{{name}}"
+      />
+    </div>
+    <div>
+      <label for="code" id="code-label">Enter chat room code</label>
+      <input
+        type="text"
+        id="code"
+        name="code"
+        placeholder="Enter code"
+        value="{{code}}"
+      />
+      <button type="submit" id="join" name="join">Join</button>
+    </div>
+    <hr />
+    <button type="submit" id="create" name="create">Create Room</button>
+  </form>
+</div>
+<div class="space">&nbsp;</div>
+
+<!-- Add JavaScript for sliding down the form -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const showFormButton = document.getElementById("show-form-btn");
+    const form = document.getElementById("chat-widget-home");
+    showFormButton.addEventListener("click", function () {
+      form.classList.toggle("hidden");
+    });
+  });
+</script>
+
+<style>
+  /* CSS for hiding the form initially */
+  .hidden {
+    display: none;
+  }
+</style>
+{% endblock %}

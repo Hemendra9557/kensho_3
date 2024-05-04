@@ -1,0 +1,165 @@
+{% extends 'base.html' %} {% block content %}
+
+</style>
+
+<div id="room-container">
+  <h1 id="home-header">Kensho</h1>
+  <div id="room-subsection">
+    <h2 id="room-code-display">Room Code: <span>{{ room }}</span></h2>
+    <a href="/" id="leave-chat-btn">Leave the Chat</a>
+  </div>
+
+  <div id="chat-room-widget">
+    <div id="msgs-container">
+      <ul id="messages"></ul>
+    </div>
+
+    <div id="message-box">
+      <input
+        type="text"
+        placeholder="Enter your message"
+        id="message-input"
+        name="message"
+      />
+      <button type="button" id="start-audio-btn" onclick="startAudioInput()">
+        Start Audio
+      </button><button type="button" id="send-btn" onclick="sendMessage()">Send</button>
+      <!-- Change type to "button" to prevent form submission -->
+    </div>
+  </div>
+
+  <div id="spoken-text"></div>
+  <!-- This div will display spoken text -->
+  <!-- Dropdown buttons for selecting input and output languages -->
+  
+    <div class="dropdown">
+      <p class="dropbtn" id="output-language-btn">Select Output Language</p>
+      <div class="dropdown-content" id="output-language-dropdown">
+        <select onchange="setOutputLanguage(this.value)">
+          <option value="">Default</option>
+          <option value="fr">French</option>
+          <option value="EN-US">English</option>
+          <option value="ja">Japanese</option>
+          <option value="ar">Arabic</option>
+          <option value="bg">Bulgarian</option>
+          <!-- Add other languages here -->
+      </select>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function setOutputLanguage(language) {
+        console.log("Setting output language:", language);
+        socketio.emit("set_output_language", language); // Emit the selected language code to the server
+        console.log("Selected output language:", language);
+    }
+</script>
+
+
+  
+  <script>
+    var socketio = io();
+
+    // Function to handle incoming messages
+    socketio.on("message", function (message) {
+      createChatItem(message.message, message.sender);
+    });
+
+    // Function to create chat items
+    function createChatItem(message, sender) {
+      var messages = document.getElementById("messages");
+      var content;
+
+      if (sender === "") {
+        content = `
+          <p class="member-activity">${message}</p>
+        `;
+      } else {
+        var senderIsUser = "{{ user }}" === sender;
+        content = `
+          <li class="message-item ${
+            senderIsUser ? "self-message-item" : "peer-message-item"
+          }">
+            <p>${message}</p>
+            <small class="${
+              senderIsUser ? "muted-text" : "muted-text-white"
+            }">${new Date().toLocaleString()}</small>
+          </li>
+        `;
+      }
+
+      messages.innerHTML += content;
+    }
+
+    function speakMessage(message) {
+      // Create a new SpeechSynthesisUtterance object
+      var msg = new SpeechSynthesisUtterance();
+      // Set the text to be spoken
+      msg.text = message;
+      // Speak the message after a short delay
+      setTimeout(function () {
+        window.speechSynthesis.speak(msg);
+      }, 100); // Adjust the delay as needed
+    }
+
+    function startAudioInput() {
+      const recognition =
+        new webkitSpeechRecognition() || new SpeechRecognition(); // Support for both old and new browser APIs
+      recognition.lang = "en-US"; // Set language if needed
+      recognition.continuous = true; // Continuously listen for speech input
+      recognition.interimResults = true; // Get interim results
+
+      recognition.onstart = function () {
+        console.log("Speech recognition started");
+      };
+
+      recognition.onresult = function (event) {
+        let interimTranscript = "";
+        let finalTranscript = "";
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+
+        // Update message input with final transcript
+        document.getElementById("message-input").value = finalTranscript;
+        // Once audio is recognized and text is filled in input, you may choose to automatically send the message
+        sendMessage();
+      };
+
+      recognition.onerror = function (event) {
+        console.error("Speech recognition error:", event.error);
+      };
+
+      recognition.onend = function () {
+        console.log("Speech recognition ended");
+        // Optionally, restart recognition when it ends
+        recognition.start();
+      };
+
+      recognition.start();
+    }
+
+    // Function to send a message
+    function sendMessage() {
+      var msgInput = document.getElementById("message-input");
+      if (msgInput.value === "") return;
+
+      var msg = msgInput.value;
+      socketio.emit("message", { message: msg });
+      msgInput.value = "";
+    }
+  </script>
+
+  {% for message in messages %}
+  <script type="text/javascript">
+    createChatItem("{{ message.message }}", "{{ message.sender }}");
+  </script>
+  {% endfor %} {% endblock %}
+</div>

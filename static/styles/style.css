@@ -1,0 +1,220 @@
+/* Body Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNoYXQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww') center/cover no-repeat; /* Set background image */
+  color: #076221;
+  /* Ensure it covers the entire viewport */
+  background-size: cover;
+  /* Center the background image */
+  background-position: center;
+  /* Fixed position to prevent scrolling */
+  background-attachment: fixed;
+}
+
+#root {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex; /* Changed from container to display */
+  flex-direction: column; /* Make the children stack vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  border: 2px solid #ccc; /* Border style */
+  border-radius: 10px; /* Rounded corners */
+  /* background-color: #f9f9f9; Background color */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+  color: #0b3d19;
+}
+
+
+#home-header {
+  padding : 10px ;
+  text-align: center;
+  font-size: 64px;
+  margin-bottom: 40px;
+  color: #034111; /* Updated header color */
+}
+
+/* CSS for centering the landing page content */
+#home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Center the form horizontally */
+#chat-widget-home {
+  padding-top: 60px;
+  text-align: center;
+}
+#chat-container {
+  background-color: #ffffff; /* Example background color */
+  border-radius: 10px; /* Example border radius */
+  padding: 20px; /* Example padding */
+  margin-top: 20px; /* Example margin from the top */
+}
+
+/* Center the "Join Now" button */
+#landing-content {
+  text-align: center;
+}
+
+/* Add additional styling as needed */
+#home-header {
+  margin-bottom: 20px;
+}
+
+#landing-content {
+  margin-bottom: 20px;
+}
+
+/* CSS for hiding the form initially */
+.hidden {
+  display: none;
+}
+.chat-box {
+  border: 2px solid #ccc; /* Border style */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding inside the box */
+  background-color: #f9f9f9; /* Background color */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+}
+
+#chat-widget-home {
+  padding: 20px;
+  background-color: #344955;
+  box-shadow: 0 0 10px rgba(120, 160, 131, 0.1); 
+}
+
+#chat-widget-home input {
+  width: 100%;
+  padding:0px;
+  margin-bottom: 10px;
+  border: 1px solid #50727B; /* Updated input border color */
+  border-radius: 4px;
+}
+
+#chat-widget-home button {
+  width: 100%;
+  padding: 10px;
+  background: rgb(53, 55, 75); /* Updated button background color */
+  border: none;
+  color: #78A083; /* Updated button text color */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#chat-widget-home button:hover {
+  background-color: #344955; /* Updated button hover background color */
+}
+
+#error {
+  padding: 10px;
+  background-color: #344955; /* Updated error background color */
+  color: #78A083; /* Updated error text color */
+  border-radius: 4px;
+  margin-top: 10px;
+}
+  #room-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    color: #78a083;
+  }
+
+  #room-subsection {
+    margin-bottom: 20px;
+  }
+
+  #room-code-display {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  #leave-chat-btn {
+    background-color: #78a083;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  #leave-chat-btn:hover {
+    background-color: #5f7c6e;
+  }
+
+  #chat-room-widget {
+    margin-top: 20px;
+  }
+
+  #msgs-container {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  #message-box {
+    margin-top: 20px;
+  }
+
+  #message-input {
+    width: calc(100% - 130px);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  #start-audio-btn,
+  #send-btn {
+    background-color: #78a083;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+
+  #start-audio-btn:hover,
+  #send-btn:hover {
+    background-color: #004825;
+  }
+
+  .message-item {
+    list-style-type: none;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .self-message-item {
+    background-color: #78a083;
+    color: #fff;
+    text-align: right;
+  }
+
+  .peer-message-item {
+    background-color: #f0f0f0;
+  }
+
+  .muted-text {
+    color: #aaa;
+  }
+
+  .muted-text-white {
+    color: #fff;
+  }
+
+  #dropdown{
+    display: inline-block;
+    position: relative;
+  }

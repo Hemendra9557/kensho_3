@@ -1,0 +1,9 @@
+Flask
+Flask-SocketIO
+deepl
+requests
+typing
+pyttsx3
+Werkzeug
+gunicorn
+pymongo
